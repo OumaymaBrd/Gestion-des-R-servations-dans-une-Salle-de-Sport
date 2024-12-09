@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - FitnessPro Gym</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            flex: 1;
+            min-width: 200px;
+            margin-right: 20px;
+        }
+        .stat-card:last-child {
+            margin-right: 0;
+        }
+        .activities-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .activities-table th, .activities-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .activities-table th {
+            background-color: #f4f4f4;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #ff4500;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .btn-secondary {
+            background-color: #333;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .form-container {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            display: none;
+        }
+        .search-container input {
+            padding: 8px;
+            width: 70%;
+            margin-right: 10px;
+        }
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            .stat-card {
+                width: 100%;
+                margin-right: 0;
+            }
+            .activities-table {
+                font-size: 14px;
+            }
+            .btn {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tableau de bord d'administration</h1>
+        
+        <div class="dashboard">
+            <div class="stat-card">
+                <h3>Nombre de réservations</h3>
+                <p id="reservationCount">150</p>
+            </div>
+            <div class="stat-card">
+                <h3>Nombre d'activités</h3>
+                <p id="activityCount">10</p>
+            </div>
+            <div class="stat-card">
+                <h3>Nombre total de membres</h3>
+                <p id="memberCount">500</p>
+            </div>
+        </div>
+
+        <h2>Gestion des activités</h2>
+        <button id="toggleFormBtn" class="btn">Ajouter une activité</button>
+        <button id="toggleSearchBtn" class="btn btn-secondary">Rechercher</button>
+
+        <div id="addActivityForm" class="form-container">
+            <h3>Ajouter une nouvelle activité</h3>
+            <form id="activityForm">
+                <div class="form-group">
+                    <label for="activityName">Nom de l'activité:</label>
+                    <input type="text" id="activityName" required>
+                </div>
+                <div class="form-group">
+                    <label for="coachName">Nom du coach:</label>
+                    <input type="text" id="coachName" required>
+                </div>
+                <button type="submit" class="btn">Ajouter</button>
+            </form>
+        </div>
+
+        <div id="searchContainer" class="search-container">
+            <input type="text" id="searchInput" placeholder="Rechercher une activité...">
+            <button id="searchBtn" class="btn">Rechercher</button>
+        </div>
+
+        <table class="activities-table">
+            <thead>
+                <tr>
+                    <th>Nom de l'activité</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="activitiesTableBody">
+                <!-- Les activités seront ajoutées ici dynamiquement -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Données factices pour les activités
+        const activities = [
+            { id: 1, name: "Yoga", coach: "Marie Dupont", isValid: true },
+            { id: 2, name: "Musculation", coach: "Pierre Martin", isValid: false },
+            { id: 3, name: "Zumba", coach: "Sophie Lefebvre", isValid: true }
+        ];
+
+        // Fonction pour afficher les activités
+        function displayActivities() {
+            const tableBody = document.getElementById('activitiesTableBody');
+            tableBody.innerHTML = '';
+            activities.forEach(activity => {
+                const row = `
+                    <tr>
+                        <td>${activity.name}</td>
+                        <td>
+                            <button class="btn ${activity.isValid ? 'btn-secondary' : ''}" onclick="toggleValidity(${activity.id})">${activity.isValid ? 'Invalider' : 'Valider'}</button>
+                            <button class="btn btn-secondary" onclick="showEditForm(${activity.id})">Modifier</button>
+                            <button class="btn btn-danger" onclick="deleteActivity(${activity.id})">Supprimer</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Fonction pour basculer la validité d'une activité
+        function toggleValidity(id) {
+            const activity = activities.find(a => a.id === id);
+            if (activity) {
+                activity.isValid = !activity.isValid;
+                displayActivities();
+            }
+        }
+
+        // Fonction pour afficher le formulaire de modification
+        function showEditForm(id) {
+            const activity = activities.find(a => a.id === id);
+            if (activity) {
+                document.getElementById('activityName').value = activity.name;
+                document.getElementById('coachName').value = activity.coach;
+                document.getElementById('addActivityForm').style.display = 'block';
+                document.getElementById('activityForm').onsubmit = (e) => {
+                    e.preventDefault();
+                    activity.name = document.getElementById('activityName').value;
+                    activity.coach = document.getElementById('coachName').value;
+                    displayActivities();
+                    document.getElementById('addActivityForm').style.display = 'none';
+                };
+            }
+        }
+
+        // Fonction pour supprimer une activité
+        function deleteActivity(id) {
+            const index = activities.findIndex(a => a.id === id);
+            if (index !== -1) {
+                activities.splice(index, 1);
+                displayActivities();
+            }
+        }
+
+        // Gestionnaire d'événements pour le bouton d'ajout/masquage du formulaire
+        document.getElementById('toggleFormBtn').addEventListener('click', () => {
+            const form = document.getElementById('addActivityForm');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                document.getElementById('toggleFormBtn').textContent = 'Masquer le formulaire';
+            } else {
+                form.style.display = 'none';
+                document.getElementById('toggleFormBtn').textContent = 'Ajouter une activité';
+            }
+        });
+
+        // Gestionnaire d'événements pour le bouton de recherche
+        document.getElementById('toggleSearchBtn').addEventListener('click', () => {
+            const searchContainer = document.getElementById('searchContainer');
+            if (searchContainer.style.display === 'none') {
+                searchContainer.style.display = 'block';
+            } else {
+                searchContainer.style.display = 'none';
+            }
+        });
+
+        // Gestionnaire d'événements pour le formulaire d'ajout d'activité
+        document.getElementById('activityForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('activityName').value;
+            const coach = document.getElementById('coachName').value;
+            activities.push({ id: activities.length + 1, name, coach, isValid: true });
+            displayActivities();
+            document.getElementById('activityForm').reset();
+            document.getElementById('addActivityForm').style.display = 'none';
+            document.getElementById('toggleFormBtn').textContent = 'Ajouter une activité';
+        });
+
+        // Initialisation de l'affichage
+        displayActivities();
+    </script>
+</body>
+</html>

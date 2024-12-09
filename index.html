@@ -3,59 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitnessPro Gym - Activités</title>
-    <link rel="stylesheet" href="assets/css/style_index.css">
+    <title>FitnessPro Gym - Accueil</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+          
+        }
+        header {
+            background-color: #ff4500;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+           
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+          
+        }
+        .hero {
+            background: url('assets/images/sallesport.webp');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .hero-content {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            border-radius: 5px;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #ff4500;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #e63900;
+        }
+        .features {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .feature {
+            flex-basis: 30%;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .feature i {
+            font-size: 3rem;
+            color: #ff4500;
+            margin-bottom: 1rem;
+        }
+        .about, .services, .testimonials, .special-offers, .gallery {
+            margin-top: 3rem;
+        }
+        .services-grid, .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .service-card, .gallery-item {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .testimonial {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        .special-offer {
+            background-color: #ffe4e1;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) {
+            .feature {
+                flex-basis: 100%;
+            }
+            .services-grid, .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
         <h1>FitnessPro Gym</h1>
         <nav>
             <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Activités</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="assets/pages/activite.html">Activités</a></li>
+                <li><a href="assets/pages/contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
 
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Bienvenue chez FitnessPro Gym</h1>
+            <p>Votre partenaire pour une vie saine et active</p>
+            <a href="assets/pages/activite.html" class="btn">Découvrir nos activités</a>
+        </div>
+    </div>
+
     <div class="container">
-        <h2>Nos Activités</h2>
-        <div class="activities">
-            <div class="activity-card">
-                <img src="assets/images/yoga.jpg" alt="Yoga">
-                <h3>Yoga</h3>
-                <p>Détendez-vous et améliorez votre flexibilité avec nos cours de yoga.</p>
-                <a href="assets/pages/login.html" class="btn">Réserver</a>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-dumbbell"></i>
+                <h3>Équipement moderne</h3>
+                <p>Profitez de nos installations de pointe pour atteindre vos objectifs fitness.</p>
             </div>
-            <div class="activity-card">
-                <img src="assets/images/methode-de-muscu.jpg" alt="Musculation">
-                <h3>Musculation</h3>
-                <p>Renforcez vos muscles avec notre équipement de pointe.</p>
-                <a href="login.html" class="btn">Réserver</a>
+            <div class="feature">
+                <i class="fas fa-users"></i>
+                <h3>Cours collectifs</h3>
+                <p>Rejoignez nos cours dynamiques animés par des coachs expérimentés.</p>
             </div>
-            <div class="activity-card">
-                <img src="assets/images/spinning.jpg" alt="Spinning">
-                <h3>Spinning</h3>
-                <p>Brûlez des calories avec nos cours de spinning intensifs.</p>
-                <a href="login.html" class="btn">Réserver</a>
+            <div class="feature">
+                <i class="fas fa-heart"></i>
+                <h3>Suivi personnalisé</h3>
+                <p>Bénéficiez d'un accompagnement sur mesure pour progresser efficacement.</p>
             </div>
-            <div class="activity-card">
-                <img src="assets/images/Pilates.webp" alt="Pilates">
-                <h3>Pilates</h3>
-                <p>Renforcez votre corps et améliorez votre posture avec le Pilates.</p>
-                <a href="login.html" class="btn">Réserver</a>
+        </div>
+
+        <div class="about">
+            <h2>À propos de nous</h2>
+            <p>FitnessPro Gym est bien plus qu'une simple salle de sport. Nous sommes une communauté dédiée à aider nos membres à atteindre leurs objectifs de santé et de forme physique. Avec des équipements de pointe, des coachs qualifiés et une ambiance motivante, nous vous offrons tout ce dont vous avez besoin pour réussir votre transformation.</p>
+        </div>
+
+        <div class="services">
+            <h2>Nos services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Musculation</h3>
+                    <p>Zone de poids libres et machines guidées pour tous les niveaux.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Cardio</h3>
+                    <p>Tapis de course, vélos, elliptiques et rameurs dernière génération.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Cours collectifs</h3>
+                    <p>Plus de 20 types de cours différents chaque semaine.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Coaching personnel</h3>
+                    <p>Séances individuelles avec nos coachs certifiés.</p>
+                </div>
             </div>
-            <div class="activity-card">
-                <img src="assets/images/zomba.jpg" alt="Zumba">
-                <h3>Zumba</h3>
-                <p>Dansez et brûlez des calories avec nos cours de Zumba énergiques.</p>
-                <a href="login.html" class="btn">Réserver</a>
+        </div>
+
+        <div class="testimonials">
+            <h2>Témoignages</h2>
+            <div class="testimonial">
+                <p>"Grâce à FitnessPro Gym, j'ai perdu 15 kg en 6 mois. L'ambiance est géniale et les coachs sont top !"</p>
+                <p><strong>- Marie L.</strong></p>
             </div>
-            <div class="activity-card">
-                <img src="assets/images/box.webp" alt="Boxe">
-                <h3>Boxe</h3>
-                <p>Améliorez votre condition physique et votre confiance avec la boxe.</p>
-                <a href="login.html" class="btn">Réserver</a>
+            <div class="testimonial">
+                <p>"Les cours collectifs sont variés et motivants. Je ne m'ennuie jamais et je progresse chaque semaine."</p>
+                <p><strong>- Thomas D.</strong></p>
+            </div>
+        </div>
+
+        <div class="special-offers">
+            <h2>Offres spéciales</h2>
+            <div class="special-offer">
+                <h3>Offre de bienvenue</h3>
+                <p>-50% sur votre premier mois d'abonnement</p>
+                <a href="#" class="btn">En profiter</a>
+            </div>
+            <div class="special-offer">
+                <h3>Pack Duo</h3>
+                <p>Venez à deux et bénéficiez de 20% de réduction sur vos abonnements annuels</p>
+                <a href="#" class="btn">En savoir plus</a>
+            </div>
+        </div>
+
+        <div class="gallery">
+            <h2>Notre salle en images</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="assets/images/equipement-salle-de-sport.webp" alt="Équipement de musculation">
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/images/collectif.jpg" alt="Cours collectif">
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/images/coachPersonnel.jpg" alt="Coach personnel">
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/images/interieurSalle.jpg" alt="Intérieur de la salle">
+                </div>
             </div>
         </div>
     </div>
