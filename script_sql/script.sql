@@ -44,3 +44,11 @@ CREATE TABLE Tableau_activite (
     FOREIGN KEY (activity_id) REFERENCES Activities(activity_id)
 );
 
+-- Create Tableau_Authentifier table
+CREATE TABLE Tableau_Authentifier (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom_complet_membre VARCHAR(50) NOT NULL,
+    Post ENUM('Administrateur', 'Coach', 'Client') DEFAULT 'Client',
+    nomComplet_coach VARCHAR(100),
+    Supprimer VARCHAR(15)
+);
