@@ -21,3 +21,14 @@ CREATE TABLE Activities (
     disponibility TINYINT(1) DEFAULT 1
 );
 
+-- Create Reservations table
+CREATE TABLE Reservations (
+    reservation_id INT PRIMARY KEY AUTO_INCREMENT,
+    member_id INT NOT NULL,
+    activity_id INT NOT NULL,
+    reservation_date DATETIME NOT NULL,
+    status ENUM('Confirmed', 'Cancelled') DEFAULT 'Confirmed',
+    FOREIGN KEY (member_id) REFERENCES Members(member_id),
+    FOREIGN KEY (activity_id) REFERENCES Activities(activity_id)
+);
+
