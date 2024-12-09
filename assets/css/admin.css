@@ -1,0 +1,112 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    padding: 20px;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+h1, h2 {
+    margin-bottom: 20px;
+}
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+.stat-card {
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex: 1;
+    min-width: 200px;
+    margin-right: 20px;
+}
+.stat-card:last-child {
+    margin-right: 0;
+}
+.activities-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+.activities-table th, .activities-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+.activities-table th {
+    background-color: #f4f4f4;
+}
+.btn {
+    display: inline-block;
+    background-color: #ff4500;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+.btn-secondary {
+    background-color: #333;
+}
+.btn-danger {
+    background-color: #dc3545;
+}
+.form-container {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    display: none;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+.search-container {
+    margin-bottom: 20px;
+    display: none;
+}
+.search-container input {
+    padding: 8px;
+    width: 70%;
+    margin-right: 10px;
+}
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    .stat-card {
+        width: 100%;
+        margin-right: 0;
+    }
+    .activities-table {
+        font-size: 14px;
+    }
+    .btn {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
