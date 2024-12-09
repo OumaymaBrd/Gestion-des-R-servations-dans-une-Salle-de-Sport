@@ -32,3 +32,15 @@ CREATE TABLE Reservations (
     FOREIGN KEY (activity_id) REFERENCES Activities(activity_id)
 );
 
+
+-- Create Tableau_activite table
+CREATE TABLE Tableau_activite (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom_complet_membre VARCHAR(100) NOT NULL,
+    Admit_activite ENUM('oui', 'Non') DEFAULT 'Non',
+    nomComplet_coach VARCHAR(100),
+    Supprimer ENUM('0','1') DEFAULT '0',
+    activity_id INT,
+    FOREIGN KEY (activity_id) REFERENCES Activities(activity_id)
+);
+
