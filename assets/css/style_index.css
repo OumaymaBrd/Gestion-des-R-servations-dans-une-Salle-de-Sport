@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  
+}
+header {
+    background-color: #ff4500;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+   
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  
+}
+.hero {
+    background: url('assets/images/sallesport.webp');
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+.hero-content {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 2rem;
+    border-radius: 5px;
+}
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+.btn {
+    display: inline-block;
+    background-color: #ff4500;
+    color: white;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+.btn:hover {
+    background-color: #e63900;
+}
+.features {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+.feature {
+    flex-basis: 30%;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.feature i {
+    font-size: 3rem;
+    color: #ff4500;
+    margin-bottom: 1rem;
+}
+.about, .services, .testimonials, .special-offers, .gallery {
+    margin-top: 3rem;
+}
+.services-grid, .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+.service-card, .gallery-item {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+}
+.testimonial {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+.special-offer {
+    background-color: #ffe4e1;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+@media (max-width: 768px) {
+    .feature {
+        flex-basis: 100%;
+    }
+    .services-grid, .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
