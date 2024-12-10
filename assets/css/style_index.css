@@ -35,7 +35,7 @@ nav ul li a {
   
 }
 .hero {
-    background: url('assets/images/sallesport.webp');
+    background: url('../images/sallesport.webp');
     background-size: cover;
     background-position: center;
     height: 500px;
