@@ -19,6 +19,31 @@
     </header>
 
     <div class="container">
+
+
+    <?php
+    
+    include 'connexion.php';
+
+
+     $sql = "SELECT * FROM activities ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $activities = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+    if ($activities) {
+        foreach ($activities as $activity) {
+            echo "ID: " . $activity['activity_id '] . "<br>";
+            echo "Nom: " . $activity['name'] . "<br>";
+            echo "Description: " . $activity['description'] . "<br>";
+            echo "<hr>";
+        }
+    } else {
+        echo "Aucune activité trouvée.";
+    }
+    
+    
+    ?>
         <h2>Nos Activités</h2>
         <div class="activities">
             <div class="activity-card">

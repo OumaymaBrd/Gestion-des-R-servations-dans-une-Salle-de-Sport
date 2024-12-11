@@ -1,3 +1,18 @@
+<?php
+    
+    include 'connexion.php';
+
+
+     $sql = "SELECT * FROM activities ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $activities = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+   
+    
+    
+    ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,48 +32,28 @@
             </ul>
         </nav>
     </header>
-    <div class="container">
+    <!-- <img src='" . htmlspecialchars($activity['image_url']) . "' alt='" . htmlspecialchars($activity['name']) . "'> -->
+    <?php
+if ($activities) {
+    echo "<div class='container'>
         <h2>Nos Activités</h2>
-        <div class="activities">
-            <div class="activity-card">
-                <img src="../images/yoga.jpg" alt="Yoga">
-                <h3>Yoga</h3>
-                <p>Détendez-vous et améliorez votre flexibilité avec nos cours de yoga.</p>
-                <a href="" class="btn">Réserver</a>
-            </div>
-            <div class="activity-card">
-                <img src="../images/methode-de-muscu.jpg" alt="Musculation">
-                <h3>Musculation</h3>
-                <p>Renforcez vos muscles avec notre équipement de pointe.</p>
-                <a href="" class="btn">Réserver</a>
-            </div>
-            <div class="activity-card">
-                <img src="" alt="Spinning">
-                <h3>Spinning</h3>
-                <p>Brûlez des calories avec nos cours de spinning intensifs.</p>
-                <a href="../pages/login.html" class="btn">Réserver</a>
-            </div>
-            <div class="activity-card">
-                <img src="../images/Pilates.webp" alt="Pilates">
-                <h3>Pilates</h3>
-                <p>Renforcez votre corps et améliorez votre posture avec le Pilates.</p>
-                <a href="" class="btn">Réserver</a>
-            </div>
-            <div class="activity-card">
-                <img src="../images/zomba.jpg" alt="Zumba">
-                <h3>Zumba</h3>
-                <p>Dansez et brûlez des calories avec nos cours de Zumba énergiques.</p>
-                <a href="" class="btn">Réserver</a>
-            </div>
-            <div class="activity-card">
-                <img src="../images/box.webp" alt="Boxe">
-                <h3>Boxe</h3>
-                <p>Améliorez votre condition physique et votre confiance avec la boxe.</p>
-                <a href="" class="btn">Réserver</a>
-            </div>
-        </div>
-    </div>
+        <div class='activities'>";
 
+    foreach ($activities as $activity) {
+        echo "<div class='activity-card'>
+        
+            <h3>" . htmlspecialchars($activity['name']) . "</h3>
+            <p>" . htmlspecialchars($activity['description']) . "</p>
+            <a href='reservation.php?id=" . htmlspecialchars($activity['activity_id']) . "' class='btn'>Réserver</a>
+        </div>";
+    }
+
+    echo "</div>
+    </div>";
+} else {
+    echo "<p>Aucune activité trouvée.</p>";
+}
+?>
     <footer>
         <p>&copy; 2024 FitnessPro Gym. Tous droits réservés.</p>
     </footer>

@@ -63,3 +63,5 @@ VALUES
     ('Pilates', 'Amélioration de la posture et renforcement du corps avec le Pilates.', 18, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1),
     ('Zumba', 'Danse énergique pour rester en forme tout en s\'amusant.', 30, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1),
     ('Boxe', 'Entraînement physique et mental avec nos cours de boxe.', 12, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1);
+---
+SELECT * FROM activities ;
