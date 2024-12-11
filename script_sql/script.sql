@@ -52,3 +52,14 @@ CREATE TABLE Tableau_Authentifier (
     nomComplet_coach VARCHAR(100),
     Supprimer VARCHAR(15)
 );
+
+
+---Inserer Tableau activities : 
+INSERT INTO activities (name, description, capacity, start_date, end_date, disponibility) 
+VALUES 
+    ('Yoga', 'Cours de Yoga pour améliorer la flexibilité et réduire le stress.', 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1),
+    ('Musculation', 'Séances de musculation avec équipement de pointe.', 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1),
+    ('Spinning', 'Cours intensif de spinning pour brûler des calories.', 25, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1),
+    ('Pilates', 'Amélioration de la posture et renforcement du corps avec le Pilates.', 18, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1),
+    ('Zumba', 'Danse énergique pour rester en forme tout en s\'amusant.', 30, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1),
+    ('Boxe', 'Entraînement physique et mental avec nos cours de boxe.', 12, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 MONTH), 1);

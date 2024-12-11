@@ -1,9 +1,4 @@
-<?php
-include 'model/connexion.php'
 
-
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,8 +14,8 @@ include 'model/connexion.php'
         <nav>
             <ul>
                 <li><a href="index.html">Accueil</a></li>
-                <li><a href="assets/pages/activite.html">Activités</a></li>
-                <li><a href="assets/pages/contact.html">Contact</a></li>
+                <li><a href="assets/pages/activite.php">Activités</a></li>
+                <li><a href="assets/pages/contact.php">Contact</a></li>
             </ul>
         </nav>
     </header>

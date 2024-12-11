@@ -17,7 +17,6 @@
             </ul>
         </nav>
     </header>
-
     <div class="container">
         <h2>Nos Activités</h2>
         <div class="activities">
@@ -25,16 +24,16 @@
                 <img src="../images/yoga.jpg" alt="Yoga">
                 <h3>Yoga</h3>
                 <p>Détendez-vous et améliorez votre flexibilité avec nos cours de yoga.</p>
-                <a href="../pages/login.html" class="btn">Réserver</a>
+                <a href="" class="btn">Réserver</a>
             </div>
             <div class="activity-card">
                 <img src="../images/methode-de-muscu.jpg" alt="Musculation">
                 <h3>Musculation</h3>
                 <p>Renforcez vos muscles avec notre équipement de pointe.</p>
-                <a href="../pages/login.html" class="btn">Réserver</a>
+                <a href="" class="btn">Réserver</a>
             </div>
             <div class="activity-card">
-                <img src="../images/spinning.jpg" alt="Spinning">
+                <img src="" alt="Spinning">
                 <h3>Spinning</h3>
                 <p>Brûlez des calories avec nos cours de spinning intensifs.</p>
                 <a href="../pages/login.html" class="btn">Réserver</a>
@@ -43,19 +42,19 @@
                 <img src="../images/Pilates.webp" alt="Pilates">
                 <h3>Pilates</h3>
                 <p>Renforcez votre corps et améliorez votre posture avec le Pilates.</p>
-                <a href="../pages/login.html" class="btn">Réserver</a>
+                <a href="" class="btn">Réserver</a>
             </div>
             <div class="activity-card">
                 <img src="../images/zomba.jpg" alt="Zumba">
                 <h3>Zumba</h3>
                 <p>Dansez et brûlez des calories avec nos cours de Zumba énergiques.</p>
-                <a href="../pages/login.html" class="btn">Réserver</a>
+                <a href="" class="btn">Réserver</a>
             </div>
             <div class="activity-card">
                 <img src="../images/box.webp" alt="Boxe">
                 <h3>Boxe</h3>
                 <p>Améliorez votre condition physique et votre confiance avec la boxe.</p>
-                <a href="../pages/login.html" class="btn">Réserver</a>
+                <a href="" class="btn">Réserver</a>
             </div>
         </div>
     </div>
