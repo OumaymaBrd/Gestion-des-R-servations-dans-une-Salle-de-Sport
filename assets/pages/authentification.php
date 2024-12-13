@@ -1,7 +1,6 @@
 <?php
 include('connexion.php');
-$error_message = '';
-$success_message = '';
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lastname = $_POST['lastname'];
