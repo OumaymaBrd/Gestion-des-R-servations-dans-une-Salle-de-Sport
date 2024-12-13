@@ -1,7 +1,7 @@
 <?php
     include 'connexion.php';
-
-     $sql = "SELECT * FROM activities where validation_admin='0' ";
+    
+    $sql = "SELECT * FROM activities where validation_admin='0' ";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $activities = $stmt->fetchAll(PDO::FETCH_ASSOC); 
