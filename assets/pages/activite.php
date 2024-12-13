@@ -1,3 +1,10 @@
+<?php
+    
+    include 'connexion.php';
+
+// echo 'hashage md5';
+ 
+    ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -21,29 +28,7 @@
     <div class="container">
 
 
-    <?php
-    
-    include 'connexion.php';
-
-
-     $sql = "SELECT * FROM activities ";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $activities = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-
-    if ($activities) {
-        foreach ($activities as $activity) {
-            echo "ID: " . $activity['activity_id '] . "<br>";
-            echo "Nom: " . $activity['name'] . "<br>";
-            echo "Description: " . $activity['description'] . "<br>";
-            echo "<hr>";
-        }
-    } else {
-        echo "Aucune activité trouvée.";
-    }
-    
-    
-    ?>
+   
         <h2>Nos Activités</h2>
         <div class="activities">
             <div class="activity-card">
@@ -64,6 +49,7 @@
                 <p>Brûlez des calories avec nos cours de spinning intensifs.</p>
                 <a href="../pages/login.php" class="btn">Réserver</a>
             </div>
+            
             <div class="activity-card">
                 <img src="../images/Pilates.webp" alt="Pilates">
                 <h3>Pilates</h3>
