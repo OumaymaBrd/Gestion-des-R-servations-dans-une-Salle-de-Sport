@@ -215,208 +215,277 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord - Gestion du Gym</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="../css/coach.css">
+    <style>
+        /* CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+        }
+        .sidebar h1 {
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+        .sidebar ul li a:hover {
+            background-color: #555;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button, input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover, input[type="submit"]:hover {
+            background-color: #555;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Tableau de Bord - Gestion du Gym</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="#reservations">Réservations</a></li>
-            <li><a href="#activities">Activités</a></li>
-            <li><a href="#new-activity">Nouvelle Activité</a></li>
-            <li><a href="#members">Membres</a></li>
-        </ul>
-    </nav>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <h1>Gestion du Gym</h1>
+            <nav>
+                <ul>
+                    <li><a href="#reservations"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href="#activities"><i class="fas fa-dumbbell"></i> Activités</a></li>
+                    <li><a href="#new-activity"><i class="fas fa-plus-circle"></i> Nouvelle Activité</a></li>
+                    <li><a href="#members"><i class="fas fa-users"></i> Membres</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <h1>Tableau de Bord - Gestion du Gym</h1>
+            
+            <?php if (!empty($message)): ?>
+                <div class="message <?php echo strpos($message, 'Erreur') !== false ? 'error' : 'success'; ?>">
+                    <?php echo htmlspecialchars($message); ?>
+                </div>
+            <?php endif; ?>
 
-    <div class="container">
-        <?php if (!empty($message)): ?>
-            <div class="message <?php echo strpos($message, 'Erreur') !== false ? 'error' : 'success'; ?>"><?php echo htmlspecialchars($message); ?></div>
-        <?php endif; ?>
-
-        <section id="reservations">
-            <h2>Réservations existantes</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Matricule</th>
-                        <th>Nom complet</th>
-                        <th>Activité</th>
-                        <th>Coach</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($reservations as $reservation): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($reservation['id']); ?></td>
-                            <td><?php echo htmlspecialchars($reservation['Matricule']); ?></td>
-                            <td><?php echo htmlspecialchars($reservation['nom_complet_membre']); ?></td>
-                            <td><?php echo htmlspecialchars($reservation['activity']); ?></td>
-                            <td><?php echo htmlspecialchars($reservation['nomComplet_coach']); ?></td>
-                            <td><?php echo htmlspecialchars($reservation['status']); ?></td>
-                            <td>
-                                <form action="" method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                    <select name="new_status">
-                                        <option value="Confirmed">Confirmé</option>
-                                        <option value="Cancelled">Annulé</option>
-                                    </select>
-                                    <button type="submit" name="modifier">Modifier</button>
-                                </form>
-                                <form action="" method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                    <button type="submit" name="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?');">Supprimer</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="activities">
-            <h2>Gestion des activités</h2>
-            <button onclick="toggleElement('inscriptionForm')">Afficher/Cacher le formulaire d'inscription</button>
-            <button onclick="toggleElement('inscriptionsTable')">Afficher/Cacher le tableau des inscriptions</button>
-
-            <div id="inscriptionForm" class="hidden">
-                <h3>Formulaire d'inscription à une activité</h3>
-                <form action="" method="POST">
-                    <label for="membre">Nom Membre :</label>
-                    <select name="nom_complet_membre" id="membre" required>
-                        <option value="">Choisissez un membre</option>
-                        <?php foreach ($membres as $membre): ?>
-                            <option value="<?php echo htmlspecialchars($membre['nom_complet_membre']); ?>">
-                                <?php echo htmlspecialchars($membre['nom_complet_membre']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <label for="coach">Choisissez un coach :</label>
-                    <select name="nomComplet_coach" id="coach" required>
-                        <option value="">Sélectionnez un coach</option>
-                        <?php foreach ($coaches as $coach): ?>
-                            <option value="<?php echo htmlspecialchars($coach['nom_complet_membre']); ?>">
-                                <?php echo htmlspecialchars($coach['nom_complet_membre']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <label for="Admit_activite">Admit :</label>
-                    <select name="Admit_activite" id="Admit_activite" required>
-                        <option value="oui">Oui</option>
-                        <option value="non">Non</option>
-                    </select>
-
-                    <label for="activity">Nom activité :</label>
-                    <select name="activity_nom" id="activity" required>
-                        <option value="">Choisissez une activité</option>
-                        <?php foreach ($activities as $activity): ?>
-                            <option value="<?php echo htmlspecialchars($activity['name']); ?>">
-                                <?php echo htmlspecialchars($activity['name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <input type="submit" name="Inscription_activite" value="Inscrire à l'activité">
-                </form>
-            </div>
-
-            <div id="inscriptionsTable" class="hidden">
-                <h3>Tableau des inscriptions</h3>
+            <section id="reservations">
+                <h2>Réservations existantes</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nom Membre</th>
-                            <th>Nom Coach</th>
+                            <th>Matricule</th>
+                            <th>Nom complet</th>
                             <th>Activité</th>
-                            <th>Admit</th>
+                            <th>Coach</th>
+                            <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($inscriptions as $inscription): ?>
+                        <?php foreach ($reservations as $reservation): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($inscription['id']); ?></td>
-                                <td><?php echo htmlspecialchars($inscription['nom_complet_membre']); ?></td>
-                                <td><?php echo htmlspecialchars($inscription['nomComplet_coach']); ?></td>
-                                <td><?php echo htmlspecialchars($inscription['activity_nom']); ?></td>
-                                <td><?php echo htmlspecialchars($inscription['Admit_activite']); ?></td>
+                                <td><?php echo htmlspecialchars($reservation['id']); ?></td>
+                                <td><?php echo htmlspecialchars($reservation['Matricule']); ?></td>
+                                <td><?php echo htmlspecialchars($reservation['nom_complet_membre']); ?></td>
+                                <td><?php echo htmlspecialchars($reservation['activity']); ?></td>
+                                <td><?php echo htmlspecialchars($reservation['nomComplet_coach']); ?></td>
+                                <td><?php echo htmlspecialchars($reservation['status']); ?></td>
                                 <td>
                                     <form action="" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?php echo $inscription['id']; ?>">
+                                        <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
                                         <select name="new_status">
-                                            <option value="oui" <?php echo $inscription['Admit_activite'] == 'oui' ? 'selected' : ''; ?>>Oui</option>
-                                            <option value="non" <?php echo $inscription['Admit_activite'] == 'non' ? 'selected' : ''; ?>>Non</option>
+                                            <option value="Confirmed">Confirmé</option>
+                                            <option value="Cancelled">Annulé</option>
                                         </select>
                                         <button type="submit" name="modifier">Modifier</button>
                                     </form>
                                     <form action="" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?php echo $inscription['id']; ?>">
-                                        <button type="submit" name="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">Supprimer</button>
+                                        <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
+                                        <button type="submit" name="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?');">Supprimer</button>
                                     </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-            </div>
-        </section>
+            </section>
 
-        <section id="new-activity">
-            <h2>Formulaire Demande Autorisation pour une activité</h2>
-            <form action="" method="POST">
-                <label for="coach">Choisissez un coach :</label>
-                <select name="coach" id="coach" required>
-                    <option value="">Sélectionnez un coach</option>
-                    <?php foreach ($coaches as $coach): ?>
-                        <option value="<?php echo htmlspecialchars($coach['nom_complet_membre']); ?>">
-                            <?php echo htmlspecialchars($coach['nom_complet_membre']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+            <section id="activities">
+                <h2>Gestion des activités</h2>
+                <button onclick="toggleElement('inscriptionForm')">Afficher/Cacher le formulaire d'inscription</button>
+                <button onclick="toggleElement('inscriptionsTable')">Afficher/Cacher le tableau des inscriptions</button>
 
-                <label for="name">Nom activité : </label>
-                <input type="text" name="name" id="name" required>
+                <div id="inscriptionForm" class="hidden">
+                    <h3>Formulaire d'inscription à une activité</h3>
+                    <form action="" method="POST">
+                        <label for="membre">Nom Membre :</label>
+                        <select name="nom_complet_membre" id="membre" required>
+                            <option value="">Choisissez un membre</option>
+                            <?php foreach ($membres as $membre): ?>
+                                <option value="<?php echo htmlspecialchars($membre['nom_complet_membre']); ?>">
+                                    <?php echo htmlspecialchars($membre['nom_complet_membre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
 
-                <label for="description">Description : </label>
-                <input type="text" name="description" id="description" required>
+                        <label for="coach">Choisissez un coach :</label>
+                        <select name="nomComplet_coach" id="coach" required>
+                            <option value="">Sélectionnez un coach</option>
+                            <?php foreach ($coaches as $coach): ?>
+                                <option value="<?php echo htmlspecialchars($coach['nom_complet_membre']); ?>">
+                                    <?php echo htmlspecialchars($coach['nom_complet_membre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
 
-                <label for="capacity">Capacité : </label>
-                <input type="number" name="capacity" id="capacity" required>
+                        <label for="Admit_activite">Admit :</label>
+                        <select name="Admit_activite" id="Admit_activite" required>
+                            <option value="oui">Oui</option>
+                            <option value="non">Non</option>
+                        </select>
 
-                <label for="start_date">Date de début : </label>
-                <input type="date" name="start_date" id="start_date" required>
+                        <label for="activity">Nom activité :</label>
+                        <select name="activity_nom" id="activity" required>
+                            <option value="">Choisissez une activité</option>
+                            <?php foreach ($activities as $activity): ?>
+                                <option value="<?php echo htmlspecialchars($activity['name']); ?>">
+                                    <?php echo htmlspecialchars($activity['name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
 
-                <label for="end_date">Date de fin : </label>
-                <input type="date" name="end_date" id="end_date" required>
+                        <input type="submit" name="Inscription_activite" value="Inscrire à l'activité">
+                    </form>
+                </div>
 
-                <label for="disponibility">Disponibilité : </label>
-                <input type="text" name="disponibility" id="disponibility" required>
+                <div id="inscriptionsTable" class="hidden">
+                    <h3>Tableau des inscriptions</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom Membre</th>
+                                <th>Nom Coach</th>
+                                <th>Activité</th>
+                                <th>Admit</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($inscriptions as $inscription): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($inscription['id']); ?></td>
+                                    <td><?php echo htmlspecialchars($inscription['nom_complet_membre']); ?></td>
+                                    <td><?php echo htmlspecialchars($inscription['nomComplet_coach']); ?></td>
+                                    <td><?php echo htmlspecialchars($inscription['activity_nom']); ?></td>
+                                    <td><?php echo htmlspecialchars($inscription['Admit_activite']); ?></td>
+                                    <td>
+                                        <form action="" method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="<?php echo $inscription['id']; ?>">
+                                            <select name="new_status">
+                                                <option value="oui" <?php echo $inscription['Admit_activite'] == 'oui' ? 'selected' : ''; ?>>Oui</option>
+                                                <option value="non" <?php echo $inscription['Admit_activite'] == 'non' ? 'selected' : ''; ?>>Non</option>
+                                            </select>
+                                            <button type="submit" name="modifier">Modifier</button>
+                                        </form>
+                                        <form action="" method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="<?php echo $inscription['id']; ?>">
+                                            <button type="submit" name="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">Supprimer</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-                <input type="submit" name="Demander_autorisation_Admin" value="Demander autorisation Admin">
-            </form>
-        </section>
-
-        <section id="members">
-            <h2>Gestion des membres</h2>
-            <button onclick="toggleElement('memberForm')">Afficher/Cacher le formulaire d'ajout</button>
-            <button onclick="toggleElement('membersTable')">Afficher/Cacher la liste des membres</button>
-
-            <div id="memberForm" class="hidden">
-                <h3>Formulaire pour ajouter un membre</h3>
-                <form action="" method="post">
-                    <label for="Matricule">Matricule :</label>
-                    <input type="text" name="Matricule" id="Matricule" required>
-
-                    <label for="nom_complet_membre">Nom complet :</label>
-                    <input type="text" name="nom_complet_membre" id="nom_complet_membre" required>
-
+            <section id="new-activity">
+                <h2>Formulaire Demande Autorisation pour une activité</h2>
+                <form action="" method="POST">
                     <label for="coach">Choisissez un coach :</label>
                     <select name="coach" id="coach" required>
                         <option value="">Sélectionnez un coach</option>
@@ -427,61 +496,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
                     </select>
 
-                    <label for="tel">Numéro de téléphone :</label>
-                    <input type="tel" name="tel" id="tel">
+                    <label for="name">Nom activité : </label>
+                    <input type="text" name="name" id="name" required>
 
-                    <label for="email">Email :</label>
-                    <input type="email" name="email" id="email" required>
+                    <label for="description">Description : </label>
+                    <input type="text" name="description" id="description" required>
 
-                    <button type="submit" name="ajouter_membre">Ajouter Membre</button>
+                    <label for="capacity">Capacité : </label>
+                    <input type="number" name="capacity" id="capacity" required>
+
+                    <label for="start_date">Date de début : </label>
+                    <input type="date" name="start_date" id="start_date" required>
+
+                    <label for="end_date">Date de fin : </label>
+                    <input type="date" name="end_date" id="end_date" required>
+
+                    <label for="disponibility">Disponibilité : </label>
+                    <input type="text" name="disponibility" id="disponibility" required>
+
+                    <input type="submit" name="Demander_autorisation_Admin" value="Demander autorisation Admin">
                 </form>
-            </div>
+            </section>
 
-            <div id="membersTable" class="hidden">
-                <h3>Liste des membres</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Matricule</th>
-                            <th>Nom complet</th>
-                            <th>Coach</th>
-                            <th>Téléphone</th>
-                            <th>Email</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($membres as $membre): ?>
+            <section id="members">
+                <h2>Gestion des membres</h2>
+                <button onclick="toggleElement('memberForm')">Afficher/Cacher le formulaire d'ajout</button>
+                <button onclick="toggleElement('membersTable')">Afficher/Cacher la liste des membres</button>
+
+                <div id="memberForm" class="hidden">
+                    <h3>Formulaire pour ajouter un membre</h3>
+                    <form action="" method="post">
+                        <label for="Matricule">Matricule :</label>
+                        <input type="text" name="Matricule" id="Matricule" required>
+
+                        <label for="nom_complet_membre">Nom complet :</label>
+                        <input type="text" name="nom_complet_membre" id="nom_complet_membre" required>
+
+                        <label for="coach">Choisissez un coach :</label>
+                        <select name="coach" id="coach" required>
+                            <option value="">Sélectionnez un coach</option>
+                            <?php foreach ($coaches as $coach): ?>
+                                <option value="<?php echo htmlspecialchars($coach['nom_complet_membre']); ?>">
+                                    <?php echo htmlspecialchars($coach['nom_complet_membre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <label for="tel">Numéro de téléphone :</label>
+                        <input type="tel" name="tel" id="tel">
+
+                        <label for="email">Email :</label>
+                        <input type="email" name="email" id="email" required>
+
+                        <button type="submit" name="ajouter_membre">Ajouter Membre</button>
+                    </form>
+                </div>
+
+                <div id="membersTable" class="hidden">
+                    <h3>Liste des membres</h3>
+                    <table>
+                        <thead>
                             <tr>
-                                <form action="" method="post">
-                                    <input type="hidden" name="id" value="<?php echo $membre['id']; ?>">
-                                    <td><input type="text" name="Matricule" value="<?php echo htmlspecialchars($membre['Matricule']); ?>" required></td>
-                                    <td><input type="text" name="nom_complet_membre" value="<?php echo htmlspecialchars($membre['nom_complet_membre']); ?>" required></td>
-                                    <td>
-                                        <select name="coach" required>
-                                            <?php foreach ($coaches as $coach): ?>
-                                                <option value="<?php echo htmlspecialchars($coach['nom_complet_membre']); ?>" 
-                                                        <?php echo ($coach['nom_complet_membre'] == $membre['nomComplet_coach']) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($coach['nom_complet_membre']); ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </td>
-                                    <td><input type="tel" name="tel" value="<?php echo htmlspecialchars($membre['phone_number']); ?>"></td>
-                                    <td><input type="email" name="email" value="<?php echo htmlspecialchars($membre['email']); ?>" required></td>
-                                    <td>
-                                        <button type="submit" name="modifier_membre">Modifier</button>
-                                        <button type="submit" name="supprimer_membre" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
-                                    </td>
-                                </form>
+                                <th>Matricule</th>
+                                <th>Nom complet</th>
+                                <th>Coach</th>
+                                <th>Téléphone</th>
+                                <th>Email</th>
+                                <th>Actions</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($membres as $membre): ?>
+                                <tr>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="id" value="<?php echo $membre['id']; ?>">
+                                        <td><input type="text" name="Matricule" value="<?php echo htmlspecialchars($membre['Matricule']); ?>" required></td>
+                                        <td><input type="text" name="nom_complet_membre" value="<?php echo htmlspecialchars($membre['nom_complet_membre']); ?>" required></td>
+                                        <td>
+                                            <select name="coach" required>
+                                                <?php foreach ($coaches as $coach): ?>
+                                                    <option value="<?php echo htmlspecialchars($coach['nom_complet_membre']); ?>" 
+                                                            <?php echo ($coach['nom_complet_membre'] == $membre['nomComplet_coach']) ? 'selected' : ''; ?>>
+                                                        <?php echo htmlspecialchars($coach['nom_complet_membre']); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </td>
+                                        <td><input type="tel" name="tel" value="<?php echo htmlspecialchars($membre['phone_number']); ?>"></td>
+                                        <td><input type="email" name="email" value="<?php echo htmlspecialchars($membre['email']); ?>" required></td>
+                                        <td>
+                                            <button type="submit" name="modifier_membre">Modifier</button>
+                                            <button type="submit" name="supprimer_membre" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
+                                        </td>
+                                    </form>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <script src="../script/coach.js"></script>
+    <script>
+        function toggleElement(elementId) {
+            var element = document.getElementById(elementId);
+            if (element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+            } else {
+                element.classList.add('hidden');
+            }
+        }
+    </script>
 </body>
 </html>
+
