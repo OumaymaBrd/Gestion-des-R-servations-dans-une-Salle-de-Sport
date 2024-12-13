@@ -19,9 +19,6 @@
     </header>
 
     <div class="container">
-
-
-   
         <h2>Nos Activités</h2>
         <div class="activities">
             <div class="activity-card">
