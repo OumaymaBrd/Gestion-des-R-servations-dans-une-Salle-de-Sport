@@ -1,77 +1,77 @@
-# 🏋️ Gym Management System
+# 🏋️ Système de Gestion de Salle de Sport
 
-## 📋 Project Context
+## 📋 Contexte du Projet
 
-Our gym aims to modernize its management system by implementing a web application. Currently, all operations are performed manually, leading to errors and difficulties in daily management. The goal is to create a simple tool to:
+Notre salle de sport souhaite moderniser son système de gestion en mettant en place une application web. Actuellement, toutes les opérations sont réalisées manuellement, ce qui entraîne des erreurs et des difficultés dans la gestion quotidienne. L'objectif est de créer un outil simple pour :
 
-- 👥 Manage registered gym members
-- 📅 Schedule and display available activities or equipment
-- 🎟️ Allow members to book activities or equipment
+- 👥 Gérer les membres inscrits à la salle
+- 📅 Planifier et afficher les activités ou équipements disponibles
+- 🎟️ Permettre aux membres de réserver des activités ou des équipements
 
-## 🎯 Project Objectives
+## 🎯 Objectifs du Projet
 
-You are tasked with designing a complete solution based on a provided database schema. Your project should include modeling, environment setup, and development of essential features.
+Vous êtes chargé de concevoir une solution complète basée sur un schéma de base de données fourni. Votre projet devra inclure la modélisation, la configuration de l'environnement, et le développement de fonctionnalités essentielles.
 
-## 📝 Implementation Instructions
+## 📝 Instructions de Réalisation
 
-### 1. Database Schema (ERD) 📊
+### 1. Schéma de la Base de Données (ERD) 📊
 
-Analyze the provided database schema and create a specification describing:
+Analysez le schéma de base de données fourni et réalisez un cahier des charges décrivant :
 
-- Main entities (e.g., Members, Activities, Reservations)
-- Relationships between entities
-- Functional requirements of the system based on this schema
+- Les entités principales (ex. Membres, Activités, Réservations)
+- Les relations entre les entités
+- Les besoins fonctionnels du système en vous basant sur ce schéma
 
-### 2. Table Design (Bonus) 🏆
+### 2. Conception des Tables (Bonus) 🏆
 
-Based on the provided schema:
+À partir du schéma fourni :
 
-- Design necessary tables respecting the given structure
-- Add attributes or additional tables if needed to meet specific requirements
+- Concevez les tables nécessaires en respectant la structure donnée
+- Ajoutez, si besoin, des attributs ou des tables supplémentaires pour répondre à des besoins spécifiques
 
-### 3. UML Diagram (Use Case) 📈
+### 3. Diagramme UML (Cas d'Utilisation) 📈
 
-Create a use case diagram identifying:
+Réalisez un diagramme de cas d'utilisation (Use Case Diagram) en identifiant :
 
-- Main system actors (e.g., member, administrator)
-- Possible interactions between actors and the system
+- Les acteurs principaux du système (ex. membre, administrateur)
+- Les interactions possibles entre les acteurs et le système
 
-### 4. Environment Setup ⚙️
+### 4. Configuration de l'Environnement ⚙️
 
-Install and configure the work environment:
+Installer et configurer l'environnement de travail :
 
-- Required software (e.g., local server, code editor)
-- Database creation from the provided schema
-- File structure for your project
+- Logiciels requis (ex. serveur local, éditeur de code)
+- Création de la base de données à partir du schéma fourni
+- Structure des fichiers pour votre projet
 
-### 5. SQL Scripts 📜
+### 5. Scripts SQL 📜
 
-Write necessary scripts to:
+Écrivez les scripts nécessaires pour :
 
-- Create the database and its tables
-- Perform insert, update, and delete operations on tables
-- Execute a simple join query between two tables
+- Créer la base de données et ses tables
+- Réaliser des opérations d'insertion, de mise à jour, et de suppression sur les tables
+- Effectuer une requête de jointure simple entre deux tables
 
-### 6. PHP Functionalities 💻
+### 6. Fonctionnalités en PHP 💻
 
-Develop the following features:
+Développez les fonctionnalités suivantes :
 
-- Add data via forms (e.g., members, activities, reservations)
-- Dynamically display database data (e.g., list of members or reservations)
+- Ajouter des données via des formulaires (ex. membres, activités, réservations)
+- Afficher dynamiquement les données de la base (ex. liste des membres ou réservations)
 
-### Bonus Features 🌟
+### Fonctionnalités Bonus 🌟
 
-Implement additional functionalities such as:
+Implémentez des fonctionnalités supplémentaires, telles que :
 
-- Modify data via forms (e.g., members, activities, reservations)
-- Delete data
+- Modifier des données via des formulaires (ex. membres, activités, réservations)
+- Suppression des données
 
-## 🛠️ Technologies Used
+## 🛠️ Technologies Utilisées
 
-- **Server**: WampServer
-- **Database**: MySQL
-- **Backend**: PHP
-- **Frontend**: HTML, CSS, JavaScript
-- **UML Modeling**: draw.io / Lucidchart
+- **Serveur** : WampServer
+- **Base de données** : MySQL
+- **Backend** : PHP
+- **Frontend** : HTML, CSS, JavaScript
+- **Modélisation UML** : draw.io / Lucidchart
 
-## 📁 Project Structure
+## 📁 Structure du Projet
