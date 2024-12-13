@@ -2,22 +2,15 @@
 include('connexion.php');
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les données soumises
     $matricule = $_POST['Matricule'];
     $password = $_POST['password'];
-
-    // Préparer une requête pour vérifier le matricule et le poste
     $sql = "SELECT * FROM tableau_authentifier WHERE Matricule = :matricule AND Post IS NOT NULL";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':matricule', $matricule);
     $stmt->execute();
-
-    // Vérifier si un utilisateur a été trouvé
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($user) {
-        $id = $user['id']; // Récupérer l'ID de l'utilisateur depuis la base de données
-
-        // Rediriger en fonction du poste et ajouter ID et Matricule dans l'URL
+        $id = $user['id'];
         if ($user['Post'] == 'Coach') {
             header("Location: Coach.php?id=$id&matricule=$matricule");
             exit;
@@ -47,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="login-container">
         <div class="logo">
-            <!-- Logo -->
+       
         </div>
         <h1>Connexion</h1>
         

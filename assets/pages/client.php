@@ -1,5 +1,4 @@
 <?php
-    
     include 'connexion.php';
 
      $sql = "SELECT * FROM activities where validation_admin='0' ";
@@ -7,7 +6,6 @@
     $stmt->execute();
     $activities = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 
-   
     ?>
 
 <!DOCTYPE html>
@@ -29,13 +27,8 @@
         </nav>
     </header>
     <?php
-// Assuming $conn is your existing database connection
-
-// Initialize variables
 $activity_id = $_GET['id'] ?? null;
 $matricule = $_GET['matricule'] ?? null;
-
-// Function to check if an activity is reserved
 function isReserved($conn, $activity_id, $matricule) {
     $sql = "SELECT * FROM reservations WHERE member_id = :member_id AND matricule = :matricule AND status = 'Confirmed'";
     $stmt = $conn->prepare($sql);
@@ -45,7 +38,6 @@ function isReserved($conn, $activity_id, $matricule) {
     return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
 }
 
-// Affichage des activités
 if ($activities) {
     echo "<div class='container'>
         <h2>Nos Activités</h2>
@@ -72,8 +64,6 @@ if ($activities) {
 
     echo "</div>
     </div>";
-
-    // Traitement lorsque le formulaire est soumis
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $activity_id = $_POST['activity_id'] ?? '';
         $activity_name = $_POST['activity_name'] ?? '';
@@ -115,37 +105,7 @@ if ($activities) {
 }
 ?>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const forms = document.querySelectorAll('.reservation-form');
-    forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            fetch('', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newContent = doc.querySelector('.container');
-                if (newContent) {
-                    document.querySelector('.container').outerHTML = newContent.outerHTML;
-                }
-                const message = doc.querySelector('.success, .error');
-                if (message) {
-                    alert(message.textContent);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    });
-});
-</script>
+<script src="../script/client.js"></script>
     <footer>
         <p>&copy; 2024 FitnessPro Gym. Tous droits réservés.</p>
     </footer>

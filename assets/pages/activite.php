@@ -1,10 +1,3 @@
-<?php
-    
-    include 'connexion.php';
-
-// echo 'hashage md5';
- 
-    ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -1,8 +1,6 @@
 <?php
-// Connexion à la base de données
-include('connexion.php');
 
-// Récupérer le matricule depuis l'URL
+include('connexion.php');
 if (!isset($_GET['matricule'])) {
     die("Accès refusé. Matricule manquant.");
 }
@@ -10,12 +8,6 @@ if (!isset($_GET['matricule'])) {
 $matricule = htmlspecialchars($_GET['matricule'], ENT_QUOTES, 'UTF-8');
 $message = "";
 
-// Traitement de la soumission du formulaire
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  
-}
-
-// Récupérer les activités déjà réservées
 $reservedActivities = [];
 try {
     $sql = "SELECT activity FROM reservations WHERE Matricule = :matricule AND status = 'Confirmed'";
