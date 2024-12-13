@@ -1,7 +1,6 @@
 <?php
 include 'connexion.php';
 
-// Fetch data
 $sql_activities = "SELECT name FROM activities";
 $stmt_activities = $conn->prepare($sql_activities);
 $stmt_activities->execute();
@@ -36,7 +35,6 @@ $membres = $stmt_membres->fetchAll(PDO::FETCH_ASSOC);
 
 $message = '';
 
-// Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['modifier'])) {
         $id = $_POST['id'];
@@ -215,118 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord - Gestion du Gym</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <style>
-        /* CSS styles here */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .dashboard {
-            display: flex;
-            min-height: 100vh;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-        }
-        .sidebar h1 {
-            margin-bottom: 20px;
-        }
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            margin-bottom: 10px;
-        }
-        .sidebar ul li a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            transition: background-color 0.3s;
-        }
-        .sidebar ul li a:hover {
-            background-color: #555;
-        }
-        .main-content {
-            flex: 1;
-            padding: 20px;
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="number"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button, input[type="submit"] {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover, input[type="submit"]:hover {
-            background-color: #555;
-        }
-        .message {
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-        .success {
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-        }
-        .error {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/coach.css">
+
 </head>
 <body>
     <div class="dashboard">
@@ -334,10 +222,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>Gestion du Gym</h1>
             <nav>
                 <ul>
-                    <li><a href="#reservations"><i class="fas fa-calendar-check"></i> Réservations</a></li>
-                    <li><a href="#activities"><i class="fas fa-dumbbell"></i> Activités</a></li>
-                    <li><a href="#new-activity"><i class="fas fa-plus-circle"></i> Nouvelle Activité</a></li>
-                    <li><a href="#members"><i class="fas fa-users"></i> Membres</a></li>
+                    <li><a href="#reservations" class="nav-link active"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href="#activities" class="nav-link"><i class="fas fa-dumbbell"></i> Activités</a></li>
+                    <li><a href="#new-activity" class="nav-link"><i class="fas fa-plus-circle"></i> Nouvelle Activité</a></li>
+                    <li><a href="#members" class="nav-link"><i class="fas fa-users"></i> Membres</a></li>
                 </ul>
             </nav>
         </aside>
@@ -350,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
 
-            <section id="reservations">
+            <section id="reservations" class="content-section">
                 <h2>Réservations existantes</h2>
                 <table>
                     <thead>
@@ -374,18 +262,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <td><?php echo htmlspecialchars($reservation['nomComplet_coach']); ?></td>
                                 <td><?php echo htmlspecialchars($reservation['status']); ?></td>
                                 <td>
-                                    <form action="" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                        <select name="new_status">
-                                            <option value="Confirmed">Confirmé</option>
-                                            <option value="Cancelled">Annulé</option>
-                                        </select>
-                                        <button type="submit" name="modifier">Modifier</button>
-                                    </form>
-                                    <form action="" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                        <button type="submit" name="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?');">Supprimer</button>
-                                    </form>
+                                    <div class="action-buttons">
+                                        <form action="" method="post" class="action-form">
+                                            <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
+                                            <select name="new_status" class="action-select">
+                                                <option value="Confirmed">Confirmé</option>
+                                                <option value="Cancelled">Annulé</option>
+                                            </select>
+                                            <button type="submit" name="modifier" class="action-button">Modifier</button>
+                                        </form>
+                                        <form action="" method="post" class="action-form">
+                                            <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
+                                            <button type="submit" name="supprimer" class="action-button delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?');">Supprimer</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -393,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </table>
             </section>
 
-            <section id="activities">
+            <section id="activities" class="content-section hidden">
                 <h2>Gestion des activités</h2>
                 <button onclick="toggleElement('inscriptionForm')">Afficher/Cacher le formulaire d'inscription</button>
                 <button onclick="toggleElement('inscriptionsTable')">Afficher/Cacher le tableau des inscriptions</button>
@@ -463,18 +353,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <td><?php echo htmlspecialchars($inscription['activity_nom']); ?></td>
                                     <td><?php echo htmlspecialchars($inscription['Admit_activite']); ?></td>
                                     <td>
-                                        <form action="" method="post" style="display:inline;">
-                                            <input type="hidden" name="id" value="<?php echo $inscription['id']; ?>">
-                                            <select name="new_status">
-                                                <option value="oui" <?php echo $inscription['Admit_activite'] == 'oui' ? 'selected' : ''; ?>>Oui</option>
-                                                <option value="non" <?php echo $inscription['Admit_activite'] == 'non' ? 'selected' : ''; ?>>Non</option>
-                                            </select>
-                                            <button type="submit" name="modifier">Modifier</button>
-                                        </form>
-                                        <form action="" method="post" style="display:inline;">
-                                            <input type="hidden" name="id" value="<?php echo $inscription['id']; ?>">
-                                            <button type="submit" name="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">Supprimer</button>
-                                        </form>
+                                        <div class="action-buttons">
+                                            <form action="" method="post" class="action-form">
+                                                <input type="hidden" name="id" value="<?php echo $inscription['id']; ?>">
+                                                <select name="new_status" class="action-select">
+                                                    <option value="oui" <?php echo $inscription['Admit_activite'] == 'oui' ? 'selected' : ''; ?>>Oui</option>
+                                                    <option value="non" <?php echo $inscription['Admit_activite'] == 'non' ? 'selected' : ''; ?>>Non</option>
+                                                </select>
+                                                <button type="submit" name="modifier" class="action-button">Modifier</button>
+                                            </form>
+                                            <form action="" method="post" class="action-form">
+                                                <input type="hidden" name="id" value="<?php echo $inscription['id']; ?>">
+                                                <button type="submit" name="supprimer" class="action-button delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">Supprimer</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -483,7 +375,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </section>
 
-            <section id="new-activity">
+            <section id="new-activity" class="content-section hidden">
                 <h2>Formulaire Demande Autorisation pour une activité</h2>
                 <form action="" method="POST">
                     <label for="coach">Choisissez un coach :</label>
@@ -518,7 +410,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </form>
             </section>
 
-            <section id="members">
+            <section id="members" class="content-section hidden">
                 <h2>Gestion des membres</h2>
                 <button onclick="toggleElement('memberForm')">Afficher/Cacher le formulaire d'ajout</button>
                 <button onclick="toggleElement('membersTable')">Afficher/Cacher la liste des membres</button>
@@ -585,8 +477,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <td><input type="tel" name="tel" value="<?php echo htmlspecialchars($membre['phone_number']); ?>"></td>
                                         <td><input type="email" name="email" value="<?php echo htmlspecialchars($membre['email']); ?>" required></td>
                                         <td>
-                                            <button type="submit" name="modifier_membre">Modifier</button>
-                                            <button type="submit" name="supprimer_membre" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
+                                            <div class="action-buttons">
+                                                <button type="submit" name="modifier_membre" class="action-button">Modifier</button>
+                                                <button type="submit" name="supprimer_membre" class="action-button delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
+                                            </div>
                                         </td>
                                     </form>
                                 </tr>
@@ -598,15 +492,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </main>
     </div>
 
-    <script>
-        function toggleElement(elementId) {
-            var element = document.getElementById(elementId);
-            if (element.classList.contains('hidden')) {
-                element.classList.remove('hidden');
-            } else {
-                element.classList.add('hidden');
-            }
-        }
+    <script src="../script/coach.js">
+       
     </script>
 </body>
 </html>
