@@ -32,13 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authentification - FitnessPro Gym</title>
-    <link rel="stylesheet" href="assets/css/authentification.css">
+    <link rel="stylesheet" href="../css/authentification.css">
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="https://via.placeholder.com/150x50?text=FitnessPro" alt="FitnessPro Logo">
-        </div>
+    <div class="container">       
         <h1>Authentification</h1>
         
         <?php if (isset($error_message)): ?>

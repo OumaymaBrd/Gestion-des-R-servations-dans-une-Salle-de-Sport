@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Se connecter</button>
         </form>
         <div class="links">
-            <a href="#">Mot de passe oublié ?</a> | <a href="#">S'inscrire</a>
+             <a href="authentification.php">S'inscrire</a>
         </div>
     </div>
 </body>

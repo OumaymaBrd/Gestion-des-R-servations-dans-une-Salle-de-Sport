@@ -86,3 +86,6 @@ button:hover {
     color: green;
     margin-bottom: 20px;
 }
+body{
+    background: url('../images/sallesport.webp');
+}

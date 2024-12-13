@@ -13,7 +13,7 @@
         <h1>FitnessPro Gym</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Accueil</a></li>
+                <li><a href="index.php">Accueil</a></li>
                 <li><a href="assets/pages/activite.php">Activités</a></li>
                 <li><a href="assets/pages/contact.php">Contact</a></li>
             </ul>
