@@ -1,3 +1,50 @@
+<?php
+include 'connexion.php';
+
+$message = '';
+
+// Handle activity validation
+if (isset($_POST['valider'])) {
+    $id = $_POST['id'];
+    try {
+        $sql_valider = "UPDATE activities SET validation_admin = 0 WHERE activity_id = :id";
+        $stmt_valider = $conn->prepare($sql_valider);
+        $stmt_valider->bindParam(':id', $id);
+        if ($stmt_valider->execute()) {
+            $message = "Activité validée avec succès.";
+        } else {
+            $message = "Erreur lors de la validation de l'activité.";
+        }
+    } catch (PDOException $e) {
+        $message = "Erreur : " . $e->getMessage();
+    }
+}
+
+// Handle activity deletion
+if (isset($_POST['supprimer'])) {
+    $id = $_POST['id'];
+    try {
+        $sql_supprimer = "DELETE FROM activities WHERE activity_id = :id";
+        $stmt_supprimer = $conn->prepare($sql_supprimer);
+        $stmt_supprimer->bindParam(':id', $id);
+        if ($stmt_supprimer->execute()) {
+            $message = "Activité supprimée avec succès.";
+        } else {
+            $message = "Erreur lors de la suppression de l'activité.";
+        }
+    } catch (PDOException $e) {
+        $message = "Erreur : " . $e->getMessage();
+    }
+}
+
+// Fetch pending activities
+$sql_afficher = "SELECT * FROM activities WHERE validation_admin = 1";
+$stmt_afficher = $conn->prepare($sql_afficher);
+$stmt_afficher->execute();
+$activities = $stmt_afficher->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,161 +52,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - FitnessPro Gym</title>
     <link rel="stylesheet" href="../css/admin.css">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Tableau de bord d'administration</h1>
-        
-        <div class="dashboard">
-            <div class="stat-card">
-                <h3>Nombre de réservations</h3>
-                <p id="reservationCount">150</p>
-            </div>
-            <div class="stat-card">
-                <h3>Nombre d'activités</h3>
-                <p id="activityCount">10</p>
-            </div>
-            <div class="stat-card">
-                <h3>Nombre total de membres</h3>
-                <p id="memberCount">500</p>
-            </div>
+        <?php if (!empty($message)): ?>
+            <p><?php echo htmlspecialchars($message); ?></p>
+        <?php endif; ?>
+
+        <h2>Les Activités en attente d'acceptation : </h2>
+
+        <button onclick="toggleTable()">Afficher/Cacher le tableau</button>
+
+        <div id="tableContainer" class="hidden">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Capacité</th>
+                        <th>Date de début</th>
+                        <th>Date de fin</th>
+                        <th>Disponibilité</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($activities as $activity): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($activity['name']); ?></td>
+                            <td><?php echo htmlspecialchars($activity['description']); ?></td>
+                            <td><?php echo htmlspecialchars($activity['capacity']); ?></td>
+                            <td><?php echo htmlspecialchars($activity['start_date']); ?></td>
+                            <td><?php echo htmlspecialchars($activity['end_date']); ?></td>
+                            <td><?php echo htmlspecialchars($activity['disponibility']); ?></td>
+                            <td>
+                                <form method="post" style="display: inline;">
+                                    <input type="hidden" name="id" value="<?php echo $activity['activity_id']; ?>">
+                                    <button type="submit" name="valider">Valider</button>
+                                </form>
+                                <form method="post" style="display: inline;">
+                                    <input type="hidden" name="id" value="<?php echo $activity['activity_id']; ?>">
+                                    <button type="submit" name="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette activité ?');">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
-
-        <h2>Gestion des activités</h2>
-        <button id="toggleFormBtn" class="btn">Ajouter une activité</button>
-        <button id="toggleSearchBtn" class="btn btn-secondary">Rechercher</button>
-
-        <div id="addActivityForm" class="form-container">
-            <h3>Ajouter une nouvelle activité</h3>
-            <form id="activityForm">
-                <div class="form-group">
-                    <label for="activityName">Nom de l'activité:</label>
-                    <input type="text" id="activityName" required>
-                </div>
-                <div class="form-group">
-                    <label for="coachName">Nom du coach:</label>
-                    <input type="text" id="coachName" required>
-                </div>
-                <button type="submit" class="btn">Ajouter</button>
-            </form>
-        </div>
-
-        <div id="searchContainer" class="search-container">
-            <input type="text" id="searchInput" placeholder="Rechercher une activité...">
-            <button id="searchBtn" class="btn">Rechercher</button>
-        </div>
-
-        <table class="activities-table">
-            <thead>
-                <tr>
-                    <th>Nom de l'activité</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="activitiesTableBody">
-                <!-- Les activités seront ajoutées ici dynamiquement -->
-            </tbody>
-        </table>
     </div>
 
+    
+
     <script>
-        // Données factices pour les activités
-        const activities = [
-            { id: 1, name: "Yoga", coach: "Marie Dupont", isValid: true },
-            { id: 2, name: "Musculation", coach: "Pierre Martin", isValid: false },
-            { id: 3, name: "Zumba", coach: "Sophie Lefebvre", isValid: true }
-        ];
-
-        // Fonction pour afficher les activités
-        function displayActivities() {
-            const tableBody = document.getElementById('activitiesTableBody');
-            tableBody.innerHTML = '';
-            activities.forEach(activity => {
-                const row = `
-                    <tr>
-                        <td>${activity.name}</td>
-                        <td>
-                            <button class="btn ${activity.isValid ? 'btn-secondary' : ''}" onclick="toggleValidity(${activity.id})">${activity.isValid ? 'Invalider' : 'Valider'}</button>
-                            <button class="btn btn-secondary" onclick="showEditForm(${activity.id})">Modifier</button>
-                            <button class="btn btn-danger" onclick="deleteActivity(${activity.id})">Supprimer</button>
-                        </td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
-        }
-
-        // Fonction pour basculer la validité d'une activité
-        function toggleValidity(id) {
-            const activity = activities.find(a => a.id === id);
-            if (activity) {
-                activity.isValid = !activity.isValid;
-                displayActivities();
-            }
-        }
-
-        // Fonction pour afficher le formulaire de modification
-        function showEditForm(id) {
-            const activity = activities.find(a => a.id === id);
-            if (activity) {
-                document.getElementById('activityName').value = activity.name;
-                document.getElementById('coachName').value = activity.coach;
-                document.getElementById('addActivityForm').style.display = 'block';
-                document.getElementById('activityForm').onsubmit = (e) => {
-                    e.preventDefault();
-                    activity.name = document.getElementById('activityName').value;
-                    activity.coach = document.getElementById('coachName').value;
-                    displayActivities();
-                    document.getElementById('addActivityForm').style.display = 'none';
-                };
-            }
-        }
-
-        // Fonction pour supprimer une activité
-        function deleteActivity(id) {
-            const index = activities.findIndex(a => a.id === id);
-            if (index !== -1) {
-                activities.splice(index, 1);
-                displayActivities();
-            }
-        }
-
-        // Gestionnaire d'événements pour le bouton d'ajout/masquage du formulaire
-        document.getElementById('toggleFormBtn').addEventListener('click', () => {
-            const form = document.getElementById('addActivityForm');
-            if (form.style.display === 'none') {
-                form.style.display = 'block';
-                document.getElementById('toggleFormBtn').textContent = 'Masquer le formulaire';
+        function toggleTable() {
+            var tableContainer = document.getElementById('tableContainer');
+            if (tableContainer.classList.contains('hidden')) {
+                tableContainer.classList.remove('hidden');
             } else {
-                form.style.display = 'none';
-                document.getElementById('toggleFormBtn').textContent = 'Ajouter une activité';
+                tableContainer.classList.add('hidden');
             }
-        });
-
-        // Gestionnaire d'événements pour le bouton de recherche
-        document.getElementById('toggleSearchBtn').addEventListener('click', () => {
-            const searchContainer = document.getElementById('searchContainer');
-            if (searchContainer.style.display === 'none') {
-                searchContainer.style.display = 'block';
-            } else {
-                searchContainer.style.display = 'none';
-            }
-        });
-
-        // Gestionnaire d'événements pour le formulaire d'ajout d'activité
-        document.getElementById('activityForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('activityName').value;
-            const coach = document.getElementById('coachName').value;
-            activities.push({ id: activities.length + 1, name, coach, isValid: true });
-            displayActivities();
-            document.getElementById('activityForm').reset();
-            document.getElementById('addActivityForm').style.display = 'none';
-            document.getElementById('toggleFormBtn').textContent = 'Ajouter une activité';
-        });
-
-        // Initialisation de l'affichage
-        displayActivities();
+        }
     </script>
 </body>
 </html>
+
