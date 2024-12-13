@@ -71,6 +71,10 @@ $activities = $stmt_afficher->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
+
+<form action="http://localhost/Salle_sport/assets/pages/Coach.php" method="get">
+    <button type="submit">Revenir à l'interface de Coach</button>
+</form>
     <div class="container">
         <?php if (!empty($message)): ?>
             <p><?php echo htmlspecialchars($message); ?></p>
@@ -119,18 +123,76 @@ $activities = $stmt_afficher->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    
+    <!-- Statistique -->
+    <?php
+   $activity_count = 0;
 
-    <script>
-        function toggleTable() {
-            var tableContainer = document.getElementById('tableContainer');
-            if (tableContainer.classList.contains('hidden')) {
-                tableContainer.classList.remove('hidden');
-            } else {
-                tableContainer.classList.add('hidden');
-            }
-        }
-    </script>
+   // SQL query to count all activities
+   $sql_count = "SELECT COUNT(*) as total FROM activities";
+   
+   try {
+       $stmt = $conn->prepare($sql_count);
+       $stmt->execute();
+       $result = $stmt->fetch(PDO::FETCH_ASSOC);
+       $activity_count = $result['total'];
+   } catch (PDOException $e) {
+       // Log error but don't expose details to user
+       error_log("Database error: " . $e->getMessage());
+       $activity_count = 0; // Set default value if query fails
+   }
+   
+   $display_count = isset($activity_count) ? htmlspecialchars((string)$activity_count) : '0';
+
+//    
+
+function getCount($conn, $sql) {
+    try {
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+        return 0;
+    }
+}
+$sql_client_count = "SELECT COUNT(*) as total FROM tableau_authentifier WHERE Post = 'Client' AND Supprimer = 0";
+$client_count = getCount($conn, $sql_client_count);
+
+$sql_coach_count = "SELECT COUNT(*) as total FROM tableau_authentifier WHERE Post = 'Coach' AND Supprimer = 0";
+$coach_count = getCount($conn, $sql_coach_count);
+
+$total_inscriptions = 0;
+
+$total_enrollments = 0;
+$enrollment_query = "SELECT COUNT(*) as enrollment_total 
+                     FROM tableau_activite 
+                     WHERE Admit_activite = 'oui'";
+
+try {
+    $enrollment_statement = $conn->prepare($enrollment_query);
+    $enrollment_statement->execute();
+    $enrollment_result = $enrollment_statement->fetch(PDO::FETCH_ASSOC);
+    $total_enrollments = $enrollment_result['enrollment_total'];
+} catch (PDOException $database_error) {
+    error_log("Database error occurred: " . $database_error->getMessage());
+  
+}
+
+$display_enrollment_count = isset($total_enrollments) ? htmlspecialchars((string)$total_enrollments) : '0';
+    ?>
+
+    
+    <label for="activity-count">Nombre d'activités : </label>
+    <span id="activity-count"><?php echo $display_count; ?></span>
+
+    <h2>Nombre de membres</h2>
+    <p>Clients : <?php echo htmlspecialchars($client_count); ?></p>
+    <p>Coachs : <?php echo htmlspecialchars($coach_count); ?></p>
+    <label for="enrollment-count">Nombre total d'inscriptions approuvées : </label>
+    <span id="enrollment-count"><?php echo $display_enrollment_count; ?></span>
+
+    <script src="../script/script.js"></script>
 </body>
 </html>
 
