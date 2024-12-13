@@ -74,4 +74,4 @@ Implémentez des fonctionnalités supplémentaires, telles que :
 - **Frontend** : HTML, CSS, JavaScript
 - **Modélisation UML** : draw.io / Lucidchart
 
-## 📁 Structure du Projet
+
