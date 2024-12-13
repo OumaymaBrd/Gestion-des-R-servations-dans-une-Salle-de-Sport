@@ -1,24 +1,38 @@
 <?php
 include('connexion.php');
 
+function generateMatricule() {
+    return 'YC' . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lastname = $_POST['lastname'];
     $firstname = $_POST['firstname'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
+    $password = $_POST['password'];
 
-    if (empty($lastname) || empty($firstname) || empty($email) || empty($phone)) {
+    if (empty($lastname) || empty($firstname) || empty($email) || empty($phone) || empty($password)) {
         $error_message = "Tous les champs sont obligatoires.";
     } else {
-        $sql = "INSERT INTO members (name, first_name, email, phone_number) VALUES (:lastname, :firstname, :email, :phone)";
+        $Post = 'Coach';
+        $Matricule = generateMatricule();
+        $nom_complet_membre = $firstname . '_' . $lastname;
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO tableau_authentifier (Matricule, nom_complet_membre, Post, email, phone_number, password) 
+                VALUES (:matricule, :nom_complet, :post, :email, :phone, :password)";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':lastname', $lastname);
-        $stmt->bindParam(':firstname', $firstname);
+        
+        $stmt->bindParam(':matricule', $Matricule);
+        $stmt->bindParam(':nom_complet', $nom_complet_membre);
+        $stmt->bindParam(':post', $Post);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':password', $hashed_password);
+        
         if ($stmt->execute()) {
-            $success_message = "Données insérées avec succès.";
+            $success_message = "Données insérées avec succès. Votre matricule est : " . $Matricule;
         } else {
             $error_message = "Erreur lors de l'insertion des données.";
         }
@@ -32,7 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authentification - FitnessPro Gym</title>
-    <link rel="stylesheet" href="../css/authentification.css">
+    <<link rel="stylesheet" href="../css/authentification.css">
+  
 </head>
 <body>
     <div class="container">       
@@ -63,7 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="phone">Numéro de téléphone :</label>
                 <input type="tel" id="phone" name="phone" required>
             </div>
-            <button type="submit">S'authentifier</button>
+            <div class="form-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Crrer un compte </button>
         </form>
     </div>
 </body>
